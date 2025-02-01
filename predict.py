@@ -17,7 +17,11 @@ import streamlit as st
 from PIL import Image
 plt.style.use('fivethirtyeight')
 import yfinance as yf
-import pandas_datareader.data as wb
+#import pandas_datareader.data as wb
+from PIL import Image
+import requests
+from io import BytesIO
+
 
 
 # In[27]:
@@ -28,7 +32,11 @@ st.write('''
 
 **mql-net.ir**
 ''')
-img=Image.open('D:/hh.jpg')
+#img=Image.open('D:/hh.jpg')
+url = 'https://algotrading.storage.iran.liara.space/hh.jpg'
+
+response = requests.get(url)
+img = Image.open(BytesIO(response.content))
 st.image(img,width=600)
 
 
@@ -64,13 +72,13 @@ def data():
 
 def get_data(symbol):
     if symbol=='Bitcoin':
-        df=pd.read_csv('D:/BTC.csv')
+        df=pd.read_csv('BTC.csv')
     elif symbol=='Ethereum':
-        df=pd.read_csv('D:/ETH.csv')
+        df=pd.read_csv('ETH.csv')
     elif symbol=='Cardano':
-        df=pd.read_csv('D:/ADA.csv')
+        df=pd.read_csv('ADA.csv')
     elif symbol=='Solana':
-        df=pd.read_csv('D:/SOL.csv')
+        df=pd.read_csv('SOL.csv')
     df=df.set_index(pd.DatetimeIndex(df['Date'].values))
     return df
 
@@ -190,7 +198,7 @@ plt.rcParams['ytick.color'] = COLOR
 plt.plot(train['Close'])
 plt.plot(valid[['Close','prediction']])
 plt.legend(['Train','Value','Prediction'])
-plt.savefig('D:/accuracy.png', dpi=600)
+plt.savefig('accuracy.png', dpi=600)
 plt.show()
 
 
@@ -198,7 +206,7 @@ plt.show()
 
 
 st.header('STOCK PREDICTOR ACCURACY : ')
-imag=Image.open('D:/accuracy.png')
+imag=Image.open('accuracy.png')
 st.image(imag,width=600)
 
 
